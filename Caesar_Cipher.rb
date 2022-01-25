@@ -1,27 +1,13 @@
 def ceasor_cipher (phrase, shift)
   new_phrase = ""
   phrase.split("").map do |letter|
-    if letter.match(/[a-z]/)
-      shift.times do 
-        if letter == "z"
-        letter = "a"
-        else
-          letter = letter.next
-        end
-      end
-      
-    elsif letter.match(/[A-Z]/)
-      shift.times do 
-        if letter == "Z"
-            letter = "A"
-        else
-          letter = letter.next
-        end
-      end
-    end
+    if letter.match(/a-zA-Z/) || letter == letter.downcase then base = 97 else base = 65 end
+      letter = ((((letter.ord - base) + shift) % 26) + base).chr
     new_phrase = new_phrase+letter  
   end
-  return p new_phrase
+    
+  return new_phrase
 end
 
-text = ceasor_cipher('What a string!',5)
+p text = ceasor_cipher('What a string y HelloWorld!',-25)
+
