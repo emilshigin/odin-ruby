@@ -1,8 +1,7 @@
+vehicles = {
+  alice: {year: 2019, make: "Toyota", model: "Corolla"},
+  blake: {year: 2020, make: "Volkswagen", model: "Beetle"},
+  caleb: {year: 2020, make: "Honda", model: "Accord"}
+}
 
-aFile = File.new("input.txt", "r").exists?
-if aFile
-   content = aFile.sysread(20)
-   puts content
-else
-   puts "Unable to open file!"
-end
+puts vehicles[:alice]
