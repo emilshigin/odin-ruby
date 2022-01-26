@@ -4,9 +4,9 @@ def ceasor_cipher (phrase, shift)
     letter = ((((letter.ord - base) + shift) % 26) + base).chr if letter.match(/[a-zA-Z]/)
     letter
   end
-
-  new_phrase.flatten.join
+  return new_phrase.flatten.join
 end
 
-p text = ceasor_cipher('Hello_worlD!', 13)
+p ceasor_cipher('Hello_worlD!', 13)
+p ceasor_cipher('Krispy Treats need to keep secret', -103)
 
