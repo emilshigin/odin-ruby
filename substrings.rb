@@ -1,9 +1,8 @@
 def substrings(message, dictionary)
   message_ary = message.split(' ').map do |word| word.gsub(/[^\w]/,'').downcase end
-  message_ary = message_ary.join(' ')
-  res = dictionary.reduce(Hash.new(0)) do |word, count|
-    word[count] += 1 if  message_ary.include? count
-    word
+  res = message_ary.reduce(Hash.new(0)) do |object, word|
+    dictionary.each { |element| object[element] += 1 if word.include? (element) }
+    object
   end
   res
 end
