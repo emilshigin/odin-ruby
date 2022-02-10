@@ -1,8 +1,11 @@
 class Play_game
-  @@game_board = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-  @@player_piece = ""
-  @@oponint_piece = ""
-  @@whos_turn = "player"
+
+  def set_defualt_variables
+    @@game_board = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    @@player_piece = ""
+    @@oponint_piece = ""
+    @@whos_turn = "player"
+  end
   
   def draw_game_board(game_board)
     puts "\t #{@@game_board[0]} |  #{@@game_board[1]}  |  #{@@game_board[2]}"
@@ -12,40 +15,90 @@ class Play_game
     puts "\t #{@@game_board[6]} |  #{@@game_board[7]}  |  #{@@game_board[8]}\n\n"
   end
   
-  def play_turn(@@whos_turn)
+  def play_turn
     if @@whos_turn == "player"
       print "Player, please pick a number: "
-      player_pick = gets[0].to_i % 9
-
-      @@whos_turn == "oponint"
+      player_pick = (gets.to_i)-1
+      while @@game_board[player_pick] == @@player_piece || @@game_board[player_pick] == @@oponint_piece || player_pick > 8 || player_pick < 0
+        print "You can't pick that number, please pick another number:"
+        player_pick = (gets[0].to_i)-1
+      end
+      @@game_board[player_pick] = @@player_piece
+      @@whos_turn ="oponint"
     else
-      @@whos_turn == "player"
+      puts "Ai is thinking..."
+      # Computer pick
+      computer_pick = rand(0..8)
+      while @@game_board[computer_pick] == @@player_piece || @@game_board[computer_pick] == @@oponint_piece
+        computer_pick = (computer_pick + 1)%9
+      end
+      @@game_board[computer_pick] = @@oponint_piece
+      @@whos_turn = "player"
+      sleep(1)
+    end  
+  end
+
+  def check_win
+    return "draw" if @@game_board.select{|piece| piece == @@player_piece || piece == @@oponint_piece}.length == 9 ? true : false
+    # Check for win return piece of winner
+    if @@game_board[0] == @@game_board[1] && @@game_board[1] == @@game_board[2]
+      return  @@game_board[0]
+    elsif @@game_board[3] == @@game_board[4] && @@game_board[4] == @@game_board[5]
+      return  @@game_board[3]
+    elsif @@game_board[6] == @@game_board[7] && @@game_board[7] == @@game_board[8]
+      return  @@game_board[6]
+    elsif @@game_board[0] == @@game_board[3] && @@game_board[3] == @@game_board[6]
+      return  @@game_board[0]
+    elsif @@game_board[1] == @@game_board[4] && @@game_board[4] == @@game_board[7]
+      return  @@game_board[1]
+    elsif @@game_board[2] == @@game_board[5] && @@game_board[5] == @@game_board[8]
+      return  @@game_board[2]
+    elsif @@game_board[0] == @@game_board[4] && @@game_board[4] == @@game_board[8]
+      return  @@game_board[0]
+    elsif @@game_board[2] == @@game_board[4] && @@game_board[4] == @@game_board[6]
+      return  @@game_board[2]
+    else
+      return false
     end
   end
 
-  def start_game 
+  def start_game
     # Inisialize game board
+    set_defualt_variables 
+    system "clear"
     draw_game_board(@@game_board)
     puts "Welcome to Tic Tac Toe"
     print "Player, please pick O or X:"
-    @@player_piece = gets[0].upcase
+    @@player_piece = gets[0].to_s.upcase
     
     # Opponint piece
     @@player_piece == "X" ? @@oponint_piece = "O" : @@oponint_piece = "X"
-    @@oponint_piece = "O" ? whos_turn = "player" : whos_turn = "oponint"
+    @@oponint_piece == "O" ? @@whos_turn = "player" : @@whos_turn = "oponint"
     
-    someone_won = true
+    # Game loop
+    someone_won = false
     while someone_won == false
-      p "piece: #{@@player_piece} oponint: #{@@oponint_piece}"
-      play_turn(@@whos_turn)   
+      puts "player piece: #{@@player_piece} oponint piece: #{@@oponint_piece}"
+      play_turn
+      system "clear"   
       draw_game_board(@@game_board)
+      someone_won = check_win
     end
 
-    sleep(1)
+    # Game over
+    if someone_won == @@player_piece
+      puts "Player won!"
+    elsif someone_won == @@oponint_piece
+      puts "Opponint won!"
+    else
+      puts "It's a draw!"
+    end
+    print "do you want to play again 1)yes 2)no:"
+    start_game if gets.to_i == 1 
   end
 end
 
-menu =  ["Play Tic-Tac-Toe","Settings","Exit"]
+menu =  ["Play Tic-Tac-Toe","Exit"]
 skip = false
 
 while true
@@ -61,7 +114,6 @@ while true
 
   case gets.chomp.to_i
   when 1
-    system "clear"
     play_game = Play_game.new
     play_game.start_game
   when 2
