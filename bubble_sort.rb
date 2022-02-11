@@ -32,12 +32,20 @@ def test_speed(function)
   end_time-start_time
 end
 
-arr = ["pug", "beagle", "labrador", "poodle", "golden retriever", "pitbull", "pomeranian", "chihuahua", "shiba inu"]
 #arr = [54,3,3464,2342526,634,236,9786,534,7532,432,658,523435,568,444,96,45567,865,756,3453,456423534,545,7567,355365857,456347468,447645]
-arr_2 = arr.dup
 
-test_1 = test_speed(bubble_sort!(arr))
-test_2 = test_speed(bubble_sort_recursive!(arr_2))
+average_time_norm = 1.0e-06
+average_time_rec = 5.0e-07
 
-puts "Bubble sort using 2 for loops: \t#{test_1}\nBubble sort using recurion: \t#{test_2}"
+for i in 0..10000
+  arr = ["pug", "beagle", "labrador", "poodle", "golden retriever", "pitbull", "pomeranian", "chihuahua", "shiba inu"]
+  arr_2 = arr.dup
+  test_1 = test_speed(bubble_sort!(arr))
+  test_2 = test_speed(bubble_sort_recursive!(arr_2))
+  average_time_norm = (average_time_norm + test_1)/(2)
+  average_time_rec = (average_time_rec + test_2)/(2)
+
+end
+puts "Bubble sort using 2 for loops: \t#{average_time_norm}\nBubble sort using recurion: \t#{average_time_rec}"
+p average_time_norm <=> average_time_rec
 # > Using recursion: seems to be faster than using 2 for loops method in all cases.
