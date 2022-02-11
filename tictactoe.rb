@@ -1,4 +1,7 @@
 class Play_game
+  def initialize(against)
+    @@against = against
+  end
 
   def set_defualt_variables
     @@game_board = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -65,7 +68,7 @@ class Play_game
   def start_game
     # Inisialize game board
     set_defualt_variables 
-    system "clear"
+    system "clear" or system "cls"
     draw_game_board(@@game_board)
     puts "Welcome to Tic Tac Toe"
     print "Player, please pick O or X:"
@@ -80,7 +83,7 @@ class Play_game
     while someone_won == false
       puts "player piece: #{@@player_piece} oponint piece: #{@@oponint_piece}"
       play_turn
-      system "clear"   
+      system "clear" or system "cls"   
       draw_game_board(@@game_board)
       someone_won = check_win
     end
@@ -98,28 +101,33 @@ class Play_game
   end
 end
 
-menu =  ["Play Tic-Tac-Toe","Exit"]
+menu =  ["Play VS Computer","Play VS Local Friend","Exit"]
 skip = false
 
 while true
+  # print menu
   unless skip == true
-    system "clear"
-    puts "################ Your Options ################"
+    system "clear" || system "cls"
+    puts "############ Lets play Tic-Tac-Toe ############"
     menu.each_with_index {|option,index| puts "#{index+1})  #{option}"}
     puts "##############################################"
     print "Type 1-#{menu.length} to pick option: "
-
   end
-    skip =false
+  skip =false
 
   case gets.chomp.to_i
+  # Play game with
   when 1
-    play_game = Play_game.new
+    play_game = Play_game.new("computer")
     play_game.start_game
   when 2
-    puts "wha you need"
-  when menu.length #exit last option in the menu array
+    play_game = Play_game.new("local")
+    play_game.start_game
+  
+    # Exit game always last entry in menu array
+  when menu.length
     break
+  
   else  
     skip = true
     print "Try again that was not on the list\nWhat would you like to do:"
