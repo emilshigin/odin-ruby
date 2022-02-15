@@ -17,14 +17,13 @@ system "clear" or system "cls"
 @color_maping.each {|color|  print color[1]}
 puts "\nPick your 4 colors each number represents a color"
 
-# @secret_combo = gets.chomp
-throw :nameOfException if gets.chomp.match(/^[1-7]{1-4}$/) == nil
+while @secret_combo = gets.chomp
+  break if @secret_combo.match(/^[1-7]{1,4}$/) != nil
 
-catch :nameOfException do
+  puts "\e[31mOne or more of the choosen colors do not exist.\e[0m" if @secret_combo.match(/^[1-7]{1,}$/) == nil 
+  puts "\e[31mRemember the combo length needs to be 4 colors.\e[0m" if  @secret_combo.match(/^[0-9]{1,4}$/) == nil
 
-  print "One of the choosen colors does not exist." if @secret_combo == @secret_combo.match(/^[1-7]$/)
-  print "Remember the combo length needs to be 4 colors:" if @secret_combo == @secret_combo.match(/^[1-7]$/)
-  puts "Please enter a correct combo:"
+  print "Please enter a correct combo:"
 end
   
 
