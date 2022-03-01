@@ -73,7 +73,6 @@ _EOF_
 # Check player color combo input
     def pick_check_color
         secret_combo = user_input
-        puts "#{secret_combo.match(/^[1-7]{4}$/) != nil}"
         return secret_combo if secret_combo.match(/^[1-7]{4}$/) != nil
         puts "\e[31mOne or more of the choosen colors do not exist.\e[0m" if secret_combo.match(/^[1-7]{1,}$/) == nil 
         puts "\e[31mRemember the combo length needs to be 4 colors.\e[0m" if secret_combo.match(/^[0-9]{4}$/) == nil

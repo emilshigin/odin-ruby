@@ -12,18 +12,20 @@ loop do
   input = user_input
   system 'clear' or 'cls'
   case input
+
   when "1", "player"
-    print "player guess combo"
-    gets
+    player_guesses
     
   when "2", "computer"
     computer_guesses
-    when "3", "rules"
-      puts rules_message
-      print "Press any key to continue..."
-      gets
+  
+  when "3", "rules"
+    puts rules_message
+    print "Press any key to continue..."
+    gets
 
-    when "4" , "exit"
-      break
-    end
+  when "4" , "exit"
+    break
+  end
+  
 end
